@@ -1,5 +1,6 @@
-64d1376b0a8914e94fb3e3f286cce770 *DESCRIPTION
+c1f252d0bd1ce6f21d8137abcf528d30 *DESCRIPTION
 0a0d223759b7d06d9c28af7c7b75717a *NAMESPACE
+212899739cbee4df83e7e42151b9850c *NEWS.md
 6133fe39749c9f41015eaddb49aa7993 *R/Cat-class.R
 9cf377b3cfd36933160c84ec8a489142 *R/RcppExports.R
 da6e38bbfa0d198160018aaff5321bdd *R/data.R
@@ -53,15 +54,15 @@ d9ff408f6b56d38a42874d644c888a3f *man/setters.Rd
 dde6736cf2eb2fbfb1dfdabb325b032c *man/storeAnswer.Rd
 60ceebc2f670794bee50ed9b48622cc5 *man/tpmCat.Rd
 5bcdda114d7847dae4a7f510c4d01b10 *man/tpm_cat.Rd
-624b4238f5642377778c758af9a6441a *src/Cat.cpp
+931b93dcbf48bf34fdb38e94941aa9c2 *src/Cat.cpp
 87bb5cede8f4fb8a13ed230e7a6c7dff *src/Cat.h
 e496b159a9213a9a98ec6aa8574c5f20 *src/CheckRules.cpp
 f691286f56a3eded0ddd17229f41c1a5 *src/CheckRules.h
-ba43aaa2cc76ec6ba3e46875ff67eb10 *src/EAPEstimator.cpp
+cf25abc0976177b3a2a334938809a578 *src/EAPEstimator.cpp
 69a2f5878dc5881b66dbb85e45b3c5e2 *src/EAPEstimator.h
 a01358a84c275889450576f189aeb0d8 *src/EPVSelector.cpp
 7227106e45a914346de9d5da3f0ab722 *src/EPVSelector.h
-c8fd25caaa24fcabced6c9bd06eaf8be *src/Estimator.cpp
+262aa5c2fb6381562afd01ff70d2e6e8 *src/Estimator.cpp
 e86f2c6b16cb7d4dbf3c2be24586029d *src/Estimator.h
 ac43749e139fae2fd9eb6c93465d6da4 *src/GSLFunctionWrapper.cpp
 e81312bda60effa6ba9789cd764bdce5 *src/GSLFunctionWrapper.h
@@ -71,7 +72,7 @@ e81312bda60effa6ba9789cd764bdce5 *src/GSLFunctionWrapper.h
 122af94e468825dbe772c767e8d9282f *src/KLSelector.h
 d439e0995531516569dd90db37c33f3c *src/LKLSelector.cpp
 2c3702c0d4f15462391f9909c6daf16f *src/LKLSelector.h
-9c8bbb500cb854c955ebb597f35d3cfa *src/MAPEstimator.cpp
+0fff35d274dc680903cc24007c621660 *src/MAPEstimator.cpp
 c8f5e15be0c2d3f5268c45fd540a8e1b *src/MAPEstimator.h
 b4fae58455ae594d31cc0501371b5b4c *src/MEISelector.cpp
 b87ad4a62e099011a5220922a692ca01 *src/MEISelector.h
@@ -79,7 +80,7 @@ c44b82bc787ac947dcb80ceaa6ab42f9 *src/MFIISelector.cpp
 f6fbfee5d18204dd1d205f55019468f5 *src/MFIISelector.h
 f1be770865557766175b5a9a03786a38 *src/MFISelector.cpp
 1e3e0a8c9081fec5b4b9b83783a988e2 *src/MFISelector.h
-f4d3b90e0c4716964dc8893f0d027797 *src/MLEEstimator.cpp
+19c3a1fb122c2f288c514300fd89460a *src/MLEEstimator.cpp
 191ab2db2d5cda044d3ca5af8d33e684 *src/MLEEstimator.h
 bc3be8b44ef2974532482621cf1e466f *src/MLWISelector.cpp
 a4fbcc0fa0293b27e281b8a376c25514 *src/MLWISelector.h
@@ -99,7 +100,7 @@ adda13430bd8ff4f9678f73eb900c985 *src/RcppExports.cpp
 b549b7fac20e8046a318380df91b0101 *src/Selection.h
 8e373a68d43af491cb2c6b98f6680fc7 *src/Selector.cpp
 73679a12797ce28ae09adfb8b537adb0 *src/Selector.h
-b52b2a6bb8642c4981e524c5a16a10f6 *src/WLEEstimator.cpp
+6f9790373fe00c387e5e39f8082ebcb5 *src/WLEEstimator.cpp
 4f58e7b3a643eb797cc933e6e929f148 *src/WLEEstimator.h
 73fc3c51b2e294b29c6210e195c37d3f *src/init.c
 551ac31ec6e2c31eece57a30f5c293bb *src/main.cpp
