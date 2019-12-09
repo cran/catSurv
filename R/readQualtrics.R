@@ -24,16 +24,19 @@
 #' 
 #' @examples 
 #' 
-#' \dontrun{
-#' raw_df <- read.csv("qualtrics_results.csv", stringsAsFactors = FALSE)
+#' data(ex_qualtrics_results) # loads example results
+#' cat_vect <- ex_qualtrics_results$catObj[-c(1,2)] # vector of Cat embedded data objects
+#' ids <- ex_qualtrics_results$ResponseId[-c(1,2)] # vector of respondent identifiers
 #' 
-#' # removing first two header rows containing question text and import ID
-#' clean_df <- readQualtrics(raw_df$catObj[-c(1,2)], raw_df$catObj[-c(1,2)])
-#' }
+#' # clean answer profiles
+#' clean_df <- readQualtrics(catObj = cat_vect, responseID = ids)
+#' 
+#' # estimate respondents' positions
+#' estimateThetas(catObj = agree_cat, responses = clean_df)
 #'
 #' @seealso
 #' 
-#' \code{\link{Cat-class}}
+#' \code{\link{Cat-class}}, \code{\link{ex_qualtrics_results}}, \code{\link{ex_qualtrics_results_multiple}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
@@ -61,18 +64,17 @@ setMethod("readQualtrics",
               }
               
               # get answers from JSON strings
-              responses <- data.frame(responseID = responseID,
-                                      plyr::adply(.data = catObj,
-                                       .margins = 1,
-                                       .id = NULL,
-                                       .fun = function(json_cat){
-                                           cat <- fromJSONCat(json_cat)
-                                           cat@answers
-                                       })
-              )
+              responses <- plyr::adply(.data = catObj,
+                                                  .margins = 1,
+                                                  .id = NULL,
+                                                  .fun = function(json_cat){
+                                                      cat <- fromJSONCat(json_cat)
+                                                      cat@answers
+                                                  })
               
               # append to data
-              colnames(responses) <- c("responseID", fromJSONCat(catObj[1])@ids)
+              colnames(responses) <- fromJSONCat(catObj[1])@ids
+              rownames(responses) <- responseID
               return(responses)
 })
 
