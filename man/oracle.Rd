@@ -5,7 +5,7 @@
 \alias{oracle,Cat-method}
 \title{Find Answer Profile that Minimizes Bias}
 \usage{
-\S4method{oracle}{Cat}(catObj, theta, responses)
+\S4method{oracle}{Cat}(catObj, theta, responses, approx = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
@@ -13,6 +13,10 @@
 \item{theta}{A numeric representing the true position on the latent trait.}
 
 \item{responses}{A vector representing the respondent's full answer profile.}
+
+\item{approx}{If TRUE, uses a subset of 1000 potential response profiles}
+
+\item{parallel}{If TRUE, computes in parallel}
 }
 \value{
 A data.frame where the first column is the user-supplied true value of theta, the second column is the
