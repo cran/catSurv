@@ -11,8 +11,8 @@
 double Estimator::prob_ltm(double theta, size_t question) {
     if(theta > 20.0 || theta < -20.0){
         std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-        Rcpp::stop(msg);
-        //throw std::domain_error(msg);
+        //Rcpp::stop(msg);
+        throw std::domain_error(msg);
     }
     
 	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
@@ -69,7 +69,7 @@ struct GrmProb
 	}
 
 private:
-	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
 	double theta_desc;
 };
 
@@ -79,19 +79,34 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	std::vector<double> probabilities;
 	probabilities.reserve(questionSet.difficulty.size()+2);
 	probabilities.push_back(0.0);
-
+	
 	for (auto term : questionSet.difficulty.at(question)) {
 		probabilities.push_back(calculate(term));
 	}
 
 	probabilities.push_back(1.0);
-
+	
 	// checking for repeated elements
   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
   	if(it != probabilities.end()){
-  	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-  	    Rcpp::stop(msg);
-  	    //throw std::domain_error(msg);
+  	    // Define small amount
+  	    double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+  	    
+  	    // Differentiate
+  	    int counter = 0;
+  	    for(size_t i = 0; i < probabilities.size()-1; i++) {
+  	        //if equal to each other, fix
+  	        if(probabilities.at(i) >= probabilities.at(i+1)){
+  	            counter += 1;
+  	            probabilities.at(i+1) += counter*eps;
+  	        }
+  	    }
+  	    
+  	    // Normalize between 0 and 1
+  	    double max = *std::max_element(std::begin(probabilities), std::end(probabilities));
+  	    for(size_t i = 0; i < probabilities.size(); i++) {
+  	        probabilities.at(i) /= max;
+  	    }
   	}
 
 	return probabilities;
@@ -102,7 +117,7 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// Returns prob at at-1 and at
 	GrmProb calculate{theta, questionSet.discrimination.at(question)};
 	std::pair<double, double> probs;
-
+	
 	auto const& difficulties = questionSet.difficulty.at(question);
 
 	if(at == 1)
@@ -126,10 +141,11 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-  	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-  	    Rcpp::stop(msg);
-  	    //throw std::domain_error(msg);
-  	      	}
+  	    double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
+  	    probs.second += eps;
+  	    //std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+  	    //Rcpp::stop(msg);
+  	}
 
 	return probs;
 }
@@ -158,8 +174,8 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
 	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-	    Rcpp::stop(msg);
-	    //throw std::domain_error(msg);
+	    //Rcpp::stop(msg);
+	    throw std::domain_error(msg);
   	}
 
   	// normalize
@@ -212,8 +228,8 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
 	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-	    Rcpp::stop(msg);
-	    //throw std::domain_error(msg);
+	    //Rcpp::stop(msg);
+	    throw std::domain_error(msg);
   	}
 
   	// normalize 
@@ -278,8 +294,8 @@ double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
 
 	if(g == 0.0 or std::isinf(g)){
 	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-	    Rcpp::stop(msg);
-	    //throw std::domain_error(msg);
+	    //Rcpp::stop(msg);
+	    throw std::domain_error(msg);
   	}
 
   	return (g*f_prime - f*g_prime)/(g*f);
@@ -355,8 +371,8 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 
 	if(g == 0.0 or std::isinf(g)){
 	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-	    Rcpp::stop(msg);
-	    //throw std::domain_error(msg);
+	    //Rcpp::stop(msg);
+	    throw std::domain_error(msg);
   	}
 
 	double b = g*g;
@@ -468,8 +484,8 @@ void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<doub
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
   if (question > questionSet.answers.size() ) {
-      Rcpp::stop("Must use a question number applicable to Cat object.");
-    //throw std::domain_error("Must use a question number applicable to Cat object.");
+      //Rcpp::stop("Must use a question number applicable to Cat object.");
+    throw std::domain_error("Must use a question number applicable to Cat object.");
   }
   
   	std::vector<double> probabilities;
@@ -840,7 +856,7 @@ double Estimator::ltm_d1LL(double theta, size_t question, int answer) {
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
 	const double prior_shift = (theta - prior.param0()) / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
-		return prior_shift;
+		return -prior_shift;
 	}
 	double l_theta = 0.0;
 	
